@@ -7,8 +7,7 @@ USERS = db["users"]
 MOVIES = db["movies"]
 COMMENTS = db["comments"]
 
-# CRUD operations with users collection
-
+# CRUD
 def create_user():
     user = {"name": "", "email": "", "password":""}
     user.name = input("Enter your name: ")
@@ -30,11 +29,13 @@ def update_user():
     newname = input("Enter the new username: ")
     USERS.update_one({"name": username}, {"$set": {"name": newname}})
 
+# Ordenar
 def users_sorted():
     users = USERS.find().sort("name")
     for user in users:
         print(user)
 
+# Proyeccinón y filtrado
 def proyect_movies():
     
     regex = input("Enter a movie title: (Can be just 1 word)" )
@@ -49,6 +50,7 @@ def proyect_movies():
     },{'$project': {'title':1}}])
     print(list(result))
 
+# Usar documentos embeded
 def comments_in_movie():
     
     movie = input("Enter a movie title: ")
@@ -65,7 +67,8 @@ def comments_in_movie():
         'as': 'comments'
     }}])
     print(list(result))
-    
+
+# Ordenar y limitar
 def worse_movies():
     
     result = MOVIES.aggregate([
@@ -75,7 +78,9 @@ def worse_movies():
         }
     },{'$limit': 10}])
     print(list(result))
-    
+   
+   
+# Arrays y agregaciones complejas 
 def actors_movies():
     result = MOVIES.aggregate([
     {
@@ -99,3 +104,4 @@ def actors_movies():
     }
     ])
     print(list(result))
+    
