@@ -1,11 +1,12 @@
+import pymongo
 from connection import connecta
-import pandas as pd
 
 db = connecta()
 
 USERS = db["users"]
 MOVIES = db["movies"]
 COMMENTS = db["comments"]
+SESSIONS = db["sessions"]
 
 # CRUD
 def create_user():
@@ -104,4 +105,23 @@ def actors_movies():
     }
     ])
     print(list(result))
+  
+# BUlk write
+print(SESSIONS.count_documents({}))
+  
+sessions = [{ "user_id": 1, "jwt": "pata" },
+            { "user_id": 2, "jwt": "peta" },
+            { "user_id": 3, "jwt": "pita" },
+            { "user_id": 4, "jwt": "pota" },
+            { "user_id": 5, "jwt": "Maria Antonieta" }]
+
+bulk = []
+for x in sessions:
+    bulk.append(pymongo.InsertOne(x))
     
+SESSIONS.bulk_write(bulk)
+
+print(SESSIONS.count_documents({}))
+
+
+
