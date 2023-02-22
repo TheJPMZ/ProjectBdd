@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
     <title>WiiTube</title>
 </head>
 <body>
@@ -13,7 +13,7 @@
             <h2>WiiTube</h2>
             <img class = "Logo" src="https://www.iconpacks.net/icons/2/free-youtube-logo-icon-2431-thumb.png" alt="Youtube Logo"/>
             <ul>
-                <li><a href="{{url_for('home')}}">Home</a></li>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
             </ul>
         </div>
 
@@ -23,9 +23,17 @@
         </form>
     </header>
     <main>
-        <iframe width="640" height="480" src="https://charts.mongodb.com/charts-project-0-otfef/embed/charts?id=63ed7d55-6d09-445e-835f-dfc90cbc4ae2&maxDataAge=3600&theme=light&autoRefresh=true"></iframe>
-        <iframe width="640" height="480" src="https://charts.mongodb.com/charts-project-0-otfef/embed/charts?id=63ed7eca-7c5a-4a35-84e7-d92a3ecc1884&maxDataAge=3600&theme=light&autoRefresh=true"></iframe>
-        <iframe width="640" height="480" src="https://charts.mongodb.com/charts-project-0-otfef/embed/charts?id=63ed7e05-0ef2-44ef-843f-db1ca89769bf&maxDataAge=3600&theme=light&autoRefresh=true"></iframe>
+        <section>
+            <h1>Videos</h1>
+            {% for video in videos%}
+            <div class="video-card">
+                <img src="https://www.howtogeek.com/wp-content/uploads/2021/08/YouTube-logo-hero-1.png?width=398&trim=1,1&bg-color=000&pad=1,1" alt="Video Thumbnail"/>
+                <h3>{{video.title}}</h3>
+                <p>Video Duration:{{video.duration}}</p>
+                <p>Video Dislikes:{{video.reactions.dislikes}}</p>
+            </div>
+            {% endfor %}
+        </section>
     </main>
 </body>
 </html>

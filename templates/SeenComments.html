@@ -13,7 +13,7 @@
             <h2>WiiTube</h2>
             <img class = "Logo" src="https://www.iconpacks.net/icons/2/free-youtube-logo-icon-2431-thumb.png" alt="Youtube Logo"/>
             <ul>
-                <li><a href="{{ url_for('graficas') }}">DashBoard</a></li>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
             </ul>
         </div>
 
@@ -24,20 +24,14 @@
     </header>
     <main>
         <section>
-            <h1>Options</h1>
-            <a href="{{ url_for('worse_movies') }}" class="video-card">
-                <div>
-                    <img src="https://shop.san-ei-corp.co.jp/img/mp/142/logo.jpg" alt="imagen"/>
-                    <h3>Worst 10 videos</h3>
-                </div>
-            </a>
-
-            <a href="{{ url_for('RecurrentComments') }}" class="video-card">
-                <div>
-                    <img src="https://shop.san-ei-corp.co.jp/img/mp/142/logo.jpg" alt="imagen"/>
-                    <h3>Most seen comments</h3>
-                </div>
-            </a>
+            <h1>Comments</h1>
+            {% for comment in comments%}
+            <div class="video-card">
+                <img src="https://thumbs.dreamstime.com/b/comment-button-red-oval-glossy-isolated-white-background-140659016.jpg" alt="Video Thumbnail"/>
+                <h3>{{comment.Comment}}</h3>
+                <p>Comment Count:{{comment.Count}}</p>
+            </div>
+            {% endfor %}
         </section>
     </main>
 </body>

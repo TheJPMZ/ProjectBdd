@@ -54,6 +54,8 @@ def comments_in_video():
     print(result)
 
 # Ordenar y limitar
+
+@app.route('/worstvideos', methods=['GET'])
 def worse_movies():
     
     result = VIDEOS.aggregate([
@@ -62,10 +64,11 @@ def worse_movies():
             'reactions.dislikes': -1,
         }
     },{'$limit': 10}])
-    return list(result)
+    return render_template('Worst10videos.html', videos = list(result))
    
    
-# Arrays y agregaciones complejas 
+# Arrays y agregaciones complejas
+@app.route('/seencomments', methods=['GET']) 
 def RecurrentComments():
     result = VIDEOS.aggregate([
     {
@@ -94,7 +97,7 @@ def RecurrentComments():
         }
     }
     ])
-    print(list(result))
+    return render_template('SeenComments.html', comments = list(result))
   
 # BUlk write
 
