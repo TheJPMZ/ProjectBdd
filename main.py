@@ -1,10 +1,17 @@
 import pymongo
+from flask import Flask, render_template, request,Response,jsonify, redirect,url_for
 from connection import connecta
 
 db = connecta()
 
+app = Flask(__name__)
+
 VIDEOS = db["documennts"]
 USERS = db["users"]
+
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 
 def read_users():
@@ -13,6 +20,7 @@ def read_users():
         print(user)
 
 # Proyeccinón y filtrado
+
 def proyect_movies():
     
     regex = input("Enter a movie title: (Can be just 1 word)" )
@@ -136,3 +144,7 @@ def bulk_write():
 
 
     print(VIDEOS.count_documents({}))
+    
+    
+if __name__ == '__main__':
+    app.run(debug=True, port=3400)
