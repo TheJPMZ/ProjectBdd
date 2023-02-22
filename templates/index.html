@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
     <title>WiiTube</title>
 </head>
 <body>
@@ -12,7 +13,7 @@
             <h2>WiiTube</h2>
             <img class = "Logo" src="https://www.iconpacks.net/icons/2/free-youtube-logo-icon-2431-thumb.png" alt="Youtube Logo"/>
             <ul>
-                <li><a>DashBoard</a></li>
+                <li><a href="{{ url_for('graficas') }}">DashBoard</a></li>
             </ul>
         </div>
 
@@ -21,6 +22,16 @@
             <button type="submit">Go</button>
         </form>
     </header>
+    <main>
+        <section>
+            <h1>Options</h1>
+            <a href="/" class="video-card">
+                <div>
+                    <img src="https://shop.san-ei-corp.co.jp/img/mp/142/logo.jpg" alt="imagen"/>
+                    <h3>Worst 10 videos</h3>
+                </div>
+            </a>
+        </section>
+    </main>
 </body>
-<script src = 'index.js'></script>
 </html>

@@ -13,6 +13,10 @@ USERS = db["users"]
 def home():
     return render_template('index.html')
 
+@app.route('/dashboard')
+def graficas():
+    return render_template('dashboard.html')
+
 
 def read_users():
     users = VIDEOS.find()
@@ -58,11 +62,11 @@ def worse_movies():
             'reactions.dislikes': -1,
         }
     },{'$limit': 10}])
-    print(list(result))
+    return list(result)
    
    
 # Arrays y agregaciones complejas 
-def actors_movies():
+def RecurrentComments():
     result = VIDEOS.aggregate([
     {
         '$unwind': {
