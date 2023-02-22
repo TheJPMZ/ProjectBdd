@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/addComment.css') }}">
+    <title>WiiTube</title>
+</head>
+<body>
+    <header>
+        <div class="Home">
+            <h2>WiiTube</h2>
+            <img class = "Logo" src="https://www.iconpacks.net/icons/2/free-youtube-logo-icon-2431-thumb.png" alt="Youtube Logo"/>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+            </ul>
+        </div>
+
+        <form action="#" method="get">
+            <input type="text" placeholder="Search"/>
+            <button type="submit">Go</button>
+        </form>
+    </header>
+    <main>
+        <section>
+            <h1>Add Comment</h1>
+            <form action="/edit" method="POST">
+                <select name="languages" id="lang" name="title">
+                    {%for video in videos %}
+                    <option value="{{video.title}}" selected = "selected">{{video.title}}</option>
+                    {%endfor%}
+                </select>
+                <input type="text" placeholder="Comment" name="Comment"/>
+                <button type="submit">POST</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

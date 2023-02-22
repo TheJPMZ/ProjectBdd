@@ -17,6 +17,12 @@ def home():
 def graficas():
     return render_template('dashboard.html')
 
+@app.route('/AddComment', methods=['GET'])
+def addComment():
+    result = VIDEOS.find()
+    result = list(result)
+    return render_template('addComment.html',  videos = list(result))
+
 
 def read_users():
     users = VIDEOS.find()
@@ -52,6 +58,22 @@ def comments_in_video():
     )
 
     print(result)
+    
+    
+@app.route('/edit', methods = ['GET','POST'])
+def edit():
+    title = request.form.get('title')
+    comment = request.form.get('Comment')
+    print(title)
+    print(comment)
+    if  title and comment:
+        VIDEOS.update_one(
+            {'title': title}, 
+            {"$push":{"comments": comment}}
+        )
+        return redirect(url_for('addComment'))
+    else:
+        return redirect(url_for('home'))
 
 # Ordenar y limitar
 
