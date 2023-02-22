@@ -55,44 +55,84 @@ def worse_movies():
    
 # Arrays y agregaciones complejas 
 def actors_movies():
-    result = MOVIES.aggregate([
+    result = VIDEOS.aggregate([
     {
         '$unwind': {
-            'path': '$cast', 
-            'includeArrayIndex': 'actor'
+            'path': '$comments', 
+            'includeArrayIndex': 'string'
         }
     }, {
         '$group': {
-            '_id': '$cast', 
-            'movies': {
+            '_id': '$comments', 
+            'videos': {
                 '$count': {}
             }
         }
     }, {
         '$sort': {
-            'movies': -1
+            'videos': -1
         }
     }, {
-        '$limit': 5
+        '$limit': 10
+    }, {
+        '$project': {
+            'Comment': '$_id', 
+            'Count': '$videos', 
+            '_id': 0
+        }
     }
     ])
     print(list(result))
   
 # BUlk write
-print(SESSIONS.count_documents({}))
+
+def bulk_write():
+    print(VIDEOS.count_documents({}))
   
-sessions = [{ "user_id": 1, "jwt": "pata" },
-            { "user_id": 2, "jwt": "peta" },
-            { "user_id": 3, "jwt": "pita" },
-            { "user_id": 4, "jwt": "pota" },
-            { "user_id": 5, "jwt": "Maria Antonieta" }]
+    sessions = [
+        {   
+            "author": "Mike",
+            "title": "My first videoblog",
+            "duration": 10,
+            "reactions": {
+                "likes": 10,
+                "dislikes": 2
+            },
+            "iframe": "https://www.youtube.com/embed/5Q672eeMCMs",
+            "description": "This is my first video",
+            "comments": ["Hate it", "I like it", "Nice video"]
+        },
+        {
+            "author": "MoistCr1TiKaL",
+            "title": "Rating markiplier's onlyfans",
+            "duration": 10,
+            "reactions": {
+                "likes": 10000,
+                "dislikes": 500
+            },
+            "iframe": "https://www.youtube.com/embed/JlLUp8I7qOo",
+            "description": "Hot take",
+            "comments": ["Wow", "What a video", "I like it"]
+        },
+        {
+            "author": "IGN",
+            "title": "Top 10 games of 2020",
+            "duration": 11,
+            "reactions": {
+                "likes": 1000,
+                "dislikes": 1000,
+            },
+            "iframe": "https://www.youtube.com/embed/nfbz1KuLXTc",
+            "description": "Top 10 games of 2020",
+            "comments": ["Nice", "Good video", "I like it"]
+        }
+    ]
 
-bulk = []
-for x in sessions:
-    bulk.append(pymongo.InsertOne(x))
-    
-SESSIONS.bulk_write(bulk)
-
-print(SESSIONS.count_documents({}))
+    bulk = []
+    for x in sessions:
+        bulk.append(pymongo.InsertOne(x))
+        
+    VIDEOS.bulk_write(bulk)
 
 
+    print(VIDEOS.count_documents({}))
