@@ -26,7 +26,7 @@
         <section>
             <h1>Add Comment</h1>
             <form action="/edit" method="POST">
-                <select name="languages" id="lang" name="title">
+                <select name="title" id="lang">
                     {%for video in videos %}
                     <option value="{{video.title}}" selected = "selected">{{video.title}}</option>
                     {%endfor%}
