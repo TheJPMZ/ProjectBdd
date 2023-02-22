@@ -3,36 +3,12 @@ from connection import connecta
 
 db = connecta()
 
+VIDEOS = db["documennts"]
 USERS = db["users"]
-MOVIES = db["movies"]
-COMMENTS = db["comments"]
-SESSIONS = db["sessions"]
 
-# CRUD
-def create_user():
-    user = {"name": "", "email": "", "password":""}
-    user.name = input("Enter your name: ")
-    user.email = input("Enter your email: ")
-    user.password = input("Enter your password: ")
-    USERS.insert_one(user)
 
 def read_users():
-    users = USERS.find()
-    for user in users:
-        print(user)
-
-def delete_user():
-    username = input("Enter the username you want to delete: ")
-    USERS.delete_one({"name": username})
-    
-def update_user():
-    username = input("Enter the username you want to update: ")
-    newname = input("Enter the new username: ")
-    USERS.update_one({"name": username}, {"$set": {"name": newname}})
-
-# Ordenar
-def users_sorted():
-    users = USERS.find().sort("name")
+    users = VIDEOS.find()
     for user in users:
         print(user)
 
@@ -41,41 +17,37 @@ def proyect_movies():
     
     regex = input("Enter a movie title: (Can be just 1 word)" )
     
-    result = MOVIES.aggregate([
+    result = VIDEOS.aggregate([
     {
         '$match': {
             'title': {
                 '$regex': regex
             }
         }
-    },{'$project': {'title':1}}])
-    print(list(result))
+    },{'$project': {'title':1,'_id':0}}])
+    for x in result:
+        print(x["title"])
 
-# Usar documentos embeded
-def comments_in_movie():
+# Usar documentos
+def comments_in_video():
     
     movie = input("Enter a movie title: ")
-        
-    result = MOVIES.aggregate([
-    {
-        '$match': {
-            'title': movie
-        }
-    },{'$lookup': {
-        'from': 'comments',
-        'localField': '_id',
-        'foreignField': 'movie_id',
-        'as': 'comments'
-    }}])
-    print(list(result))
+    comment = input("Enter a comment: ")
+    
+    result = VIDEOS.update_one(
+        {"title": movie},
+        {"$push": {"comments": comment}}
+    )
+
+    print(result)
 
 # Ordenar y limitar
 def worse_movies():
     
-    result = MOVIES.aggregate([
+    result = VIDEOS.aggregate([
     {
         '$sort': {
-            'imdb.rating': 1
+            'reactions.dislikes': -1,
         }
     },{'$limit': 10}])
     print(list(result))
@@ -122,6 +94,5 @@ for x in sessions:
 SESSIONS.bulk_write(bulk)
 
 print(SESSIONS.count_documents({}))
-
 
 

@@ -3,10 +3,10 @@ import pymongo
 def connecta():
     
     try:
-        client = pymongo.MongoClient("mongodb+srv://jpmz:jpmz@cluster0.vfoeymk.mongodb.net/?retryWrites=true&w=majority")
+        client = pymongo.MongoClient("mongodb+srv://admin:NmtDOXhkfoQo7pFI@atlascluster.mgohz2e.mongodb.net/?retryWrites=true&w=majority")
     except:
         raise Exception("Could not connect to MongoDB")
 
-    db = client["sample_mflix"]
+    db = client["test"]
 
     return db
